@@ -23,9 +23,9 @@ Auth::routes();
 //     'reset' => false,
 // ]);
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // route untuk menampilkan data atau halaman index.blade
 Route::get('/buku', [BukuController::class, 'index']);
