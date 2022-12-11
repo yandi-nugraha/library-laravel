@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('buku', function (Blueprint $table) {
-            $table->integer('like');
+            $table->integer('like')->default(0);
         });
     }
 
