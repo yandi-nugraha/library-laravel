@@ -16,7 +16,7 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tgl. Terbit</th>
-                @if(Auth::check() && Auth::user()->level == 'admin')
+                @if(Auth::check() && Auth::user()->level == 'admin' || 'user')
                 <th>Aksi</th>
                 @endif
             </tr>
@@ -40,12 +40,42 @@
                 <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td>
                 @if(Auth::check() && Auth::user()->level == 'admin')
                 <td>
-                    <a href="{{ route('galbuku', $buku->buku_seo) }}"><button class="btn btn-outline-primary">Detail</button></a>
-                    <a href="{{ route('show', $buku->id) }}"><button class="btn btn-outline-secondary">Edit</button></a>
-                    <form action="{{ route('destroy', $buku->id) }}" method="post">
-                        @csrf
-                        <button class="btn btn-danger" onClick="return confirm('Yakin mau dihapus?')">Hapus</button>
-                    </form>
+                    <div class="d-flex flex-row">
+                        <div class="p-1">
+                            <a href="{{ route('galbuku', $buku->buku_seo) }}"><button class="btn btn-outline-primary">Detail</button></a>
+                        </div>
+                        <div class="p-1">
+                            <a href="{{ route('show', $buku->id) }}"><button class="btn btn-outline-secondary">Edit</button></a>
+                        </div>
+                        <div class="p-1">
+                            <form action="{{ route('destroy', $buku->id) }}" method="post">
+                                @csrf
+                                <button class="btn btn-danger" onClick="return confirm('Yakin mau dihapus?')">Hapus</button>
+                            </form>
+                        </div>
+                        <div class="p-1">
+                            <a href="{{ route('likefoto', $buku->id) }}" class="btn btn-primary">
+                                <!-- <i class="fa fa-thumbs-up"></i> -->
+                                Like
+                                <span class="badge badge-light">{{ $buku->like }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                @endif
+                @if(Auth::check() && Auth::user()->level == 'user')
+                <td>
+                    <div class="d-flex flex-row">
+                        <div class="p-1">
+                            <a href="{{ route('galbuku', $buku->buku_seo) }}"><button class="btn btn-outline-primary">Detail</button></a>
+                        </div>
+                        <div class="p-1">
+                            <a href="{{ route('likefoto', $buku->id) }}" class="btn btn-primary">
+                                Like
+                                <span class="badge badge-light">{{ $buku->like }}</span>
+                            </a>
+                        </div>
+                    </div>
                 </td>
                 @endif
             </tr>
@@ -57,7 +87,7 @@
     <br>
 
     @if(Auth::check() && Auth::user()->level == 'admin')
-    <a href="{{ route('create') }}"><button>Tambah Buku</button></a>
+    <a href="{{ route('create') }}"><button class="btn btn-outline-primary">Tambah Buku</button></a>
     <br><br>
     @endif
 

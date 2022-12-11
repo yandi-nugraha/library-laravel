@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Models\Buku;
+use App\Models\Komentar;
+
+use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
 {
@@ -100,7 +103,17 @@ class BukuController extends Controller
     public function galbuku($bukuSeo) {
         $buku = Buku::where('buku_seo', $bukuSeo)->first();
         $galeri = $buku->photos()->orderBy('id', 'desc')->paginate(6);
-        return view('detail-buku', compact('buku', 'galeri'));
+        $komentar = $buku->comment()->paginate(10);
+
+        return view('detail-buku', compact('buku', 'galeri', 'komentar'));
     }
 
+    // Like
+    
+    public function likefoto(Request $request, $id) {
+        $buku = Buku::find($id);
+        $buku->increment('like');
+
+        return back();
+    }
 }

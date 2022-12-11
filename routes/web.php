@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\KomentarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +67,10 @@ Route::get('/list-buku', function () {
 });
 
 Route::get('/detail-buku/{bukuSeo}', [BukuController::class, 'galbuku'])->name('galbuku');
+
+// Like
+Route::get('/buku/likefoto/{id}', [BukuController::class, 'likefoto'])->name('likefoto');
+
+// Komentar
+
+Route::post('/komentar/{idBuku}', [KomentarController::class, 'store'])->name('komentar.store');
